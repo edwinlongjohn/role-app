@@ -33,7 +33,11 @@
 
 
             </li>
-            
+            <li class="">
+                <a href="{{route('user.notifications')}}"><i class="ti ti-bell me-2"></i>Notifications</a>
+
+            </li>
+
         </ul>
         <!-- sidebar-menu  -->
     </div>

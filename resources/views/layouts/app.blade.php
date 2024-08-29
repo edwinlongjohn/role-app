@@ -1,3 +1,7 @@
+@php
+    $user = Auth::user();
+    $notifications = $user->unreadNotifications()->take(5)->get();
+@endphp
 <!doctype html>
 <html lang="en" dir="ltr">
 
@@ -6,7 +10,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>PesinalPadi - User Dashboard </title>
+    <title>Role App - User Dashboard </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Premium Bootstrap 5 Landing Page Template" />
     <meta name="keywords" content="Saas, Software, multi-uses, HTML, Clean, Modern" />
@@ -88,6 +92,7 @@
                         </li> --}}
 
                         <li class="list-inline-item mb-0 ms-1">
+
                             <div class="dropdown dropdown-primary">
                                 <button type="button" class="btn btn-icon btn-soft-light dropdown-toggle p-0"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -104,73 +109,27 @@
                                         <span class="badge bg-soft-danger rounded-pill">3</span>
                                     </div>
                                     <div class="p-3">
-                                        <a href="#!"
-                                            class="dropdown-item features feature-primary key-feature p-0">
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon text-center rounded-circle me-2">
-                                                    <i class="ti ti-shopping-cart"></i>
-                                                </div>
-                                                <div class="flex-1">
-                                                    <h6 class="mb-0 text-dark title">Order Complete</h6>
-                                                    <small class="text-muted">15 min ago</small>
-                                                </div>
-                                            </div>
-                                        </a>
 
-                                        <a href="#!"
-                                            class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/user_assets/images/client/04.jpg"
-                                                    class="avatar avatar-md-sm rounded-circle border shadow me-2"
-                                                    alt="">
-                                                <div class="flex-1">
-                                                    <h6 class="mb-0 text-dark title"><span
-                                                            class="fw-bold">Message</span> from Luis</h6>
-                                                    <small class="text-muted">1 hour ago</small>
-                                                </div>
+                                        @foreach ($notifications as $notification)
+                                        <a href="{{route('user.notification', $notification->id)}}"
+                                        class="dropdown-item features feature-primary key-feature p-0 mt-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon text-center rounded-circle me-2">
+                                                <i class="ti ti-currency-dollar"></i>
                                             </div>
-                                        </a>
+                                            <div class="flex-1">
+                                                <h6 class="mb-0 text-dark title"><span class="fw-bold">{{$notification->title}}</span></h6>
+                                                <small class="text-muted">{{$notification->created_at->diffForHumans()}}</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                        @endforeach
 
-                                        <a href="#!"
-                                            class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon text-center rounded-circle me-2">
-                                                    <i class="ti ti-currency-dollar"></i>
-                                                </div>
-                                                <div class="flex-1">
-                                                    <h6 class="mb-0 text-dark title"><span class="fw-bold">One Refund
-                                                            Request</span></h6>
-                                                    <small class="text-muted">2 hour ago</small>
-                                                </div>
-                                            </div>
-                                        </a>
 
-                                        <a href="#!"
-                                            class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon text-center rounded-circle me-2">
-                                                    <i class="ti ti-truck-delivery"></i>
-                                                </div>
-                                                <div class="flex-1">
-                                                    <h6 class="mb-0 text-dark title">Deliverd your Order</h6>
-                                                    <small class="text-muted">Yesterday</small>
-                                                </div>
-                                            </div>
-                                        </a>
 
-                                        <a href="#!"
-                                            class="dropdown-item features feature-primary key-feature p-0 mt-3">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/user_assets/images/client/15.jpg"
-                                                    class="avatar avatar-md-sm rounded-circle border shadow me-2"
-                                                    alt="">
-                                                <div class="flex-1">
-                                                    <h6 class="mb-0 text-dark title"><span
-                                                            class="fw-bold">Cally</span> started following you</h6>
-                                                    <small class="text-muted">2 days ago</small>
-                                                </div>
-                                            </div>
-                                        </a>
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -339,7 +298,7 @@
         <script src="/asset/js/plugins/sweet-alert.js"></script>
         <script src="/asset/js/vendor/jquery-3.6.0.min.js"></script>
         {{-- <script src="{{ mix('js/app.js') }}" ></script> --}}
-        {{-- <script src="{{asset('user_assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
+        <script src="{{asset('user_assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <!-- Main Js -->
         <script src="/user_assets/js/plugins.init.js"></script>
 

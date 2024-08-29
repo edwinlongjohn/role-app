@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
@@ -37,6 +38,8 @@ Route::prefix('user')->as('user.')->middleware(['auth'])->group(function () {
     // Laravel 8 & 9
     Route::post('/pay', [WalletController::class, 'redirectToGateway'])->name('pay');
     Route::get('/payment/callback', [WalletController::class, 'handleGatewayCallback'])->name('callback');
+    Route::get('notifications', [NotificationController::class,'index'])->name('notifications');
+    Route::get('notification/{id}', [NotificationController::class,'singleNotification'])->name('notification');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

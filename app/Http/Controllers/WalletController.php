@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Paystack;
@@ -63,7 +65,7 @@ class WalletController extends Controller
 
         $transaction = Transaction::where('reference', $reference)->first();
 
-        
+
         $user_wallet = Wallet::find($transaction->wallet_id);
          //check if transaction failed
          if ($transaction->status == "failed") {
@@ -81,8 +83,15 @@ class WalletController extends Controller
         $user_wallet->balance += $transaction->amount;
         $user_wallet->save();
 
+        $scheduled_at = Carbon::now()->addMinutes(1);
+        $notification = new Notification();
+        $notification->user_id = Auth::user()->id;
+        $notification->scheduled_at = $scheduled_at;
+        $notification->title = 'Paystack Transaction';
+        $notification->message = "Your paystack transaction was successful and your account has been creditted with NGN". $transaction->amount;
+        $notification->save();
 
-        return redirect()->route('user.dashboard')->with(['success' => 'Pament made successfully']);
+        return redirect()->route('user.dashboard')->with(['success' => 'Payment made successfully']);
 
     }
 }
